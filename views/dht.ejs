@@ -3,8 +3,12 @@
 <head>
     <title></title>
     <meta charset="utf-8" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
+    <script src="public/js/Chart.js"></script>
+    <script src="public/js/jquery-3.3.1.js"></script>
+    <script src="public/js/excanvas.js"></script>
+    <script src="public/js/segment-display.js"></script>
     <script>
         var delay = ( function() {
             var timer = 0;
@@ -16,19 +20,79 @@
         delay(function(){
             location.reload();
         }, 5000 ); // end delay
+    </script>
+    <script>
+        var displayTemp = new SegmentDisplay("temperature");
+        // display.pattern         = "##.##:##";
+        displayTemp.pattern         = "##.#";
+        displayTemp.displayAngle    = 6;
+        displayTemp.digitHeight     = 20;
+        displayTemp.digitWidth      = 14;
+        displayTemp.digitDistance   = 2.5;
+        displayTemp.segmentWidth    = 2;
+        displayTemp.segmentDistance = 0.3;
+        displayTemp.segmentCount    = 7;
+        displayTemp.cornerType      = 3;
+        // display.colorOn         = "#e95d0f";
+        // display.colorOff        = "#4b1e05";
+        displayTemp.colorOn         = "#ff0000";
+        displayTemp.colorOff        = "#ffffff";
+        displayTemp.draw();
+        // display.setValue('12:34:56');
+        var displayHum = new SegmentDisplay("humidity");
+        // display.pattern         = "##.##:##";
+        displayHum.pattern         = "##.#";
+        displayHum.displayAngle    = 6;
+        displayHum.digitHeight     = 20;
+        displayHum.digitWidth      = 14;
+        displayHum.digitDistance   = 2.5;
+        displayHum.segmentWidth    = 2;
+        displayHum.segmentDistance = 0.3;
+        displayHum.segmentCount    = 7;
+        displayHum.cornerType      = 3;
+        // display.colorOn         = "#e95d0f";
+        // display.colorOff        = "#4b1e05";
+        displayHum.colorOn         = "#00ff00";
+        displayHum.colorOff        = "#ffffff";
+        displayHum.draw();
 
+        window.setInterval('animate()', 500);
+  
+        function animate() {
+            var time    = new Date();
+            var hours   = time.getHours();
+            var minutes = time.getMinutes();
+            var seconds = time.getSeconds();
+            valueTemp = <%= instant.temp %>;
+            valueTemp = valueTemp.toString(10);
+            valueHum = <%= instant.hum %>;
+            valueHum = valueHum.toString(10);
+            console.log(valueTemp, valueHum);
+            displayTemp.setValue(valueTemp);
+            displayHum.setValue(valueHum);
+        }
+    </script>
     </script>
     <style>
     </style>
 </head>
 <body>
+    <div id="qtime"></div>
+    <div>
+        <canvas id="temperature" width="260" height="140">
+        </canvas>
+        <canvas id="space" width="100" height="140">
+        </canvas>
+        <canvas id="humidity" width="260" height="140">
+        </canvas>
+
+    </div>
     <canvas id="myChart"></canvas>
     <script>
         var ctx = document.getElementById("myChart").getContext("2d");
         new Chart(ctx, {
             "type":"line",
             "data":{
-                // "labels":["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
                 "labels": [<%= chartdata.xid %>],
                 "datasets":[
                 {
@@ -53,7 +117,8 @@
                 }
             }
         });
-
+        // Show current time
+        // document.getElementById("qtime").innerHTML = new Date();
     </script>
 </body>
 </html>
