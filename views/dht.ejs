@@ -3,7 +3,20 @@
 <head>
     <title></title>
     <meta charset="utf-8" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script>
+        var delay = ( function() {
+            var timer = 0;
+            return function(callback, ms) {
+                clearTimeout (timer);
+                timer = setTimeout(callback, ms);
+                };
+            })();
+        delay(function(){
+            location.reload();
+        }, 5000 ); // end delay
+
     </script>
     <style>
     </style>
@@ -19,15 +32,26 @@
                 "labels": [<%= chartdata.xid %>],
                 "datasets":[
                 {
-                    "label":"My First Dataset",
-                    // "data":[65, 59, 80, 81, 56, 55, 40],
+                    "label": "Temperature",
                     "data": [<%= chartdata.temp %>],
-                    "fill":false,
-                    "borderColor":"rgb(75, 192, 192)",
-                    "lineTension":0.1}
+                    "fill": false,
+                    "borderColor": "rgb(255, 0, 0)",
+                    "lineTension": 0.1
+                },
+                {
+                    "label": "Humidity",
+                    "data": [<%= chartdata.hum %>],
+                    "fill": false,
+                    "borderColor": "rgb(0, 255, 0)",
+                    "lineTension": 0.1
+                }
                 ]
             },
-            "options":{}
+            "options":{
+                "animation":{
+                    "duration": 0
+                }
+            }
         });
 
     </script>
