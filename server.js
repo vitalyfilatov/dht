@@ -29,7 +29,6 @@ app.get('/', function (req, res) {
       chartdata.hum.push(x.hum);
     });
   });
-  console.log(chartdata);
   res.render('dht', {dht: chartdata});
 })
 
