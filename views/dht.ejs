@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js">
+    </script>
+    <style>
+    </style>
+</head>
+<body>
+    <canvas id="myChart"></canvas>
+    <script>
+        var ctx = document.getElementById("myChart").getContext("2d");
+        new Chart(ctx, {
+            "type":"line",
+            "data":{
+                // "labels":["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+                "labels": [<%= chartdata.xid %>],
+                "datasets":[
+                {
+                    "label":"My First Dataset",
+                    // "data":[65, 59, 80, 81, 56, 55, 40],
+                    "data": [<%= chartdata.temp %>],
+                    "fill":false,
+                    "borderColor":"rgb(75, 192, 192)",
+                    "lineTension":0.1}
+                ]
+            },
+            "options":{}
+        });
+
+    </script>
+</body>
+</html>
